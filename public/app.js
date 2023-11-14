@@ -6,6 +6,10 @@ let resButton = document.createElement('button')
 resButton.textContent = 'Get all restaurants'
 body.appendChild(resButton)
 
+let addButton = document.createElement('button');
+addButton.textContent = 'Add a restaurant';
+body.appendChild(addButton)
+
 
 resButton.addEventListener("click", () => {
     getRestaurants()
@@ -34,6 +38,73 @@ async function getRestaurants() {
         h3.textContent = restaurant.rating
         container.appendChild(h3)
     })
+        }
+
+        addButton.addEventListener("click", () => {
+            addRestaurant();
+        })
+
+        function addRestaurant() {
+            let container = document.createElement('div');
+            container.style.height = '60vh';
+            container.style.width = '90vw';
+            container.style.margin = 'auto'
+            container.style.backgroundColor = 'red'
+            body.appendChild(container)
+
+            let form = document.createElement('form');
+            container.appendChild(form)
+
+            let name = document.createElement('label');
+            name.textContent = "name"
+            name.style.margin = 'auto'
+            form.appendChild(name)
+
+            let nameInput = document.createElement('input');
+            nameInput.id = "userNameInput"
+            form.appendChild(nameInput)
+
+            let phoneNumber = document.createElement('label');
+            phoneNumber.textContent = 'phone number';
+            phoneNumber.style.margin = 'auto'
+            form.appendChild(phoneNumber);
+
+            let phoneInput = document.createElement('input');
+            phoneInput.id = 'userPhoneInput'
+            form.appendChild(phoneInput)
+
+            let rating = document.createElement('label');
+            rating.textContent = 'rating';
+            form.appendChild(rating)
+
+            let ratingInput = document.createElement('input');
+            ratingInput.id = 'userRatingInput'
+            form.appendChild(ratingInput)
+
+            let postButton = document.createElement('button');
+            postButton.textContent = 'Post';
+            container.appendChild(postButton)
+
+            postButton.addEventListener('click', async () => {
+              try{
+                let name = document.getElementById('userNameInput').value;
+                let phoneNumber = document.getElementById('userPhoneInput').value;
+                let rating = document.getElementById('userRatingInput').value;
+
+                let response = await fetch ('http://localhost:3000/api/restaurants') {
+                    method: "POST",
+                    body: JSON.stringify({
+                        name: name,
+                    phoneNumber: phoneNumber,
+                    rating: rating
+                    })
+                }
+
+              }catch(error) {
+
+              }
+            })
+            
         }
 
 })
