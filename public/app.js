@@ -24,6 +24,7 @@ async function getRestaurants() {
         container.style.width = '40vw';
         container.style.margin = 'auto'
         container.style.backgroundColor = 'gray'
+        container.id = 'restaurantsContainer'
         body.appendChild(container)
 
         let h1 = document.createElement('h1');
@@ -50,6 +51,7 @@ async function getRestaurants() {
             container.style.width = '90vw';
             container.style.margin = 'auto'
             container.style.backgroundColor = 'red'
+            container.id = "addRestaurantContainer"
             body.appendChild(container)
 
             let form = document.createElement('form');
@@ -71,10 +73,12 @@ async function getRestaurants() {
 
             let phoneInput = document.createElement('input');
             phoneInput.id = 'userPhoneInput'
+            phoneInput.type = 'number'
             form.appendChild(phoneInput)
 
             let rating = document.createElement('label');
             rating.textContent = 'rating';
+            rating.type = 'number'
             form.appendChild(rating)
 
             let ratingInput = document.createElement('input');
@@ -87,24 +91,38 @@ async function getRestaurants() {
 
             postButton.addEventListener('click', async () => {
               try{
-                let name = document.getElementById('userNameInput').value;
-                let phoneNumber = document.getElementById('userPhoneInput').value;
-                let rating = document.getElementById('userRatingInput').value;
+                let nameValue = document.getElementById('userNameInput').value;
+                let phoneNumberValue = document.getElementById('userPhoneInput').value;
+                let ratingValue = document.getElementById('userRatingInput').value;
 
-                let response = await fetch ('http://localhost:3000/api/restaurants') {
+                let response = await fetch ('http://localhost:3000/api/restaurants', {
                     method: "POST",
                     body: JSON.stringify({
-                        name: name,
-                    phoneNumber: phoneNumber,
-                    rating: rating
-                    })
+                     name: nameValue,
+                    phone_number: phoneNumberValue,
+                    rating: ratingValue
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                });
+                if(response.ok) {
+                    let resData = await response.json();
+                    console.log('Post was successful', resData)
+                } else {
+                    console.log('error, post failed')
                 }
-
               }catch(error) {
-
+                console.log('error')
               }
             })
             
         }
+        
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'delete a restaurant';
+        body.appendChild(deleteButton)
+
+        deleteButton.addEventListener
 
 })
